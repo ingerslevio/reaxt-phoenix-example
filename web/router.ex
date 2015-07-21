@@ -16,6 +16,25 @@ defmodule ReaxtPhoenixExample.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    get "/with_stacktrace", PageController, :with_stacktrace
+    get "/without_stacktrace", PageController, :without_stacktrace
+    get "/subcomponent", PageController, :subcomponent
+    get "/myrouter/*_rest", PageController, :myrouter
+    get "/public/*filename", PageController, :file
+  end
+
+  pipeline :webpack do
+    plug WebPack.Plug.Static, at: "/public", from: :survey
+  end
+
+  scope "/webpack", Survey do
+    pipe_through :webpack
+
+    get "/stats.json", WebpackController, :stats
+    get "/", WebpackController, :index
+    get "/events", WebpackController, :events
+    get "/client.js", WebpackController, :client
+    get "/static/:name", WebpackController, :file
   end
 
   # Other scopes may use custom stacks.

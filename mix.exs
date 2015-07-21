@@ -6,7 +6,7 @@ defmodule ReaxtPhoenixExample.Mixfile do
      version: "0.0.1",
      elixir: "~> 1.0",
      elixirc_paths: elixirc_paths(Mix.env),
-     compilers: [:phoenix] ++ Mix.compilers,
+     compilers: [:phoenix, :reaxt_webpack] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps]
@@ -16,8 +16,9 @@ defmodule ReaxtPhoenixExample.Mixfile do
   #
   # Type `mix help compile.app` for more information
   def application do
+    dev_apps = Mix.env == :dev && [:reprise] || []
     [mod: {ReaxtPhoenixExample, []},
-     applications: [:phoenix, :phoenix_html, :cowboy, :logger]]
+     applications: [:phoenix, :phoenix_html, :cowboy, :logger, :reaxt] ++ dev_apps]
   end
 
   # Specifies which paths to compile per environment
@@ -31,6 +32,8 @@ defmodule ReaxtPhoenixExample.Mixfile do
     [{:phoenix, "~> 0.14"},
      {:phoenix_html, "~> 1.1"},
      {:phoenix_live_reload, "~> 0.4", only: :dev},
-     {:cowboy, "~> 1.0"}]
+     {:cowboy, "~> 1.0"},
+     {:reaxt, "~> 0.3.0"},
+     {:reprise, "~> 0.3.0", only: :dev}]
   end
 end

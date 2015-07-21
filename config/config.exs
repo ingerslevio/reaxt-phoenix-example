@@ -19,6 +19,13 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+config :reaxt, :otp_app, :reaxt_phoenix_example
+config :reaxt, :hot, if(Mix.env == :dev, do: :client, else: false)
+config :reaxt, :pool_size, if(Mix.env == :dev, do: 1, else: 10)
+config :reaxt, :global_config, %{
+  example_config: "Config In Env :global_config of app :reaxt"
+}
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
